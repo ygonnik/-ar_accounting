@@ -34,13 +34,12 @@
     <v-btn color="success" class="me-4" @click="validate"> Добавить </v-btn>
 
     <v-btn color="error" class="me-4" @click="reset"> Сбросить </v-btn>
-
-    <v-btn color="warning" @click="resetValidation"> Сбросить валидацию </v-btn>
   </v-form>
 </template>
 <script>
 import { router } from "@/router";
 import store from "@/store";
+// import {mapActions} from 'vuex'
 export default {
   data: () => ({
     valid: true,
@@ -64,23 +63,31 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid) {
-        router.push("/");
-        store.commit("pushRecord", {
-          id: 1,
+        const newRecord = {
           model: this.model,
           number: this.number,
           color: this.color,
           comment: this.comment,
+        };
+        store.dispatch("createRecord", newRecord).then((response) => {
+          if (response.status === 200) {
+            store.commit("pushRecord", response);
+            alert("Успешно добавлено");
+            router.push("/");
+          } else {
+            alert("Ошибка при добавлении");
+          }
         });
-        alert("Успешно добавлено");
       }
     },
     reset() {
       this.$refs.form.reset();
     },
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
+  },
+  computed: {
+    // ...mapActions({
+    //   fetchRecords: "fetchRecords",
+    // }),
   },
 };
 </script>

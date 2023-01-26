@@ -1,28 +1,7 @@
+import axios from "axios";
 export const carRecordModule = {
   state: () => ({
-    records: [
-      {
-        id: 1,
-        model: "Supra",
-        number: "м399рм72rus",
-        color: "Черный",
-        comment: "Не бита.",
-      },
-      {
-        id: 2,
-        model: "Miata",
-        number: "к311тк72rus",
-        color: "Черный",
-        comment: "Не бита.",
-      },
-      {
-        id: 3,
-        model: "S2000",
-        number: "с399ос72rus",
-        color: "Черный",
-        comment: "Не бита.",
-      },
-    ],
+    records: [],
   }),
   mutations: {
     setRecords(state, payload) {
@@ -38,10 +17,16 @@ export const carRecordModule = {
     },
   },
   actions: {
-    fetchRecords(context) {
-      this.axios
-        .get("")
-        .then((response) => context.commit("setRecords", response));
+    fetchRecords() {
+      return axios.get("http://127.0.0.1:8000/api/readrecords");
+    },
+    createRecord(context, { model, number, color, comment }) {
+      return axios.post("http://127.0.0.1:8000/api/addrecord", {
+        model: model,
+        number: number,
+        color: color,
+        comment: comment,
+      });
     },
   },
 };

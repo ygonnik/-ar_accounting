@@ -9,11 +9,12 @@ use App\Http\Requests\Record\AddRequest;
 class RecordsController extends Controller
 {
     public function readRecords() {
-        dd(Record::all());
+        return Record::all();
     }
 
     public function addRecord(AddRequest $request) {
         $data = $request->validated();
         Record::create($data);
+        return $data;
     }
 }

@@ -16,6 +16,6 @@ use App\Http\Controllers\RecordsController;
 */
 
 
-Route::get('/', [RecordsController::class, 'readRecords']);
+Route::get('/readrecords', [RecordsController::class, 'readRecords']);
 
 Route::post('/addrecord', [RecordsController::class, 'addRecord']);
